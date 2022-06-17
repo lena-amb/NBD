@@ -1,0 +1,15 @@
+Start of Riak Application
+Creating a new bucket
+<RiakBucket 's17293'>
+Creating a document
+Status:  OK
+Fetching the data
+Value fetched:  Content of the Document
+Modifying the data
+Modify status:  OK
+Fetching the modified data
+Value fetched:  MODIFIED content of the Document
+Removing the document
+Delete status:  OK
+Value fetched:  None
+End of Riak App
