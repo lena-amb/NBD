@@ -1,0 +1,46 @@
+ZAD 1.
+
+curl -i -XPUT -d '{"p1":5,"p2":"wartosc","p3":0.49,"p4":null}' -H "Content-Type: application/json" http://localhost:8098/buckets/s17293/keys/file5?returnbody=true
+curl -i -XPUT -d '{"p1":28,"p2":"wartosc2","p3":0.09,"p4":1}' -H "Content-Type: application/json" http://localhost:8098/buckets/s17293/keys/file5?returnbody=true
+curl -i -XPUT -d '{"p1":2,"p2":"wartosc3","p3":0.123,"p4":null}' -H "Content-Type: application/json" http://localhost:8098/buckets/s17293/keys/file5?returnbody=true
+curl -i -XPUT -d '{"p1":0,"p2":"wartosc4","p3":0.23,"p4":2}' -H "Content-Type: application/json" http://localhost:8098/buckets/s17293/keys/file5?returnbody=true
+curl -i -XPUT -d '{"p1":1254,"p2":"wartosc5","p3":1.49,"p4":null}' -H "Content-Type: application/json" http://localhost:8098/buckets/s17293/keys/file5?returnbody=true
+
+
+ZAD 2.
+
+curl -i http://localhost:8098/buckets/s17293/keys/file5
+
+ZAD 3.
+
+curl -i -XPUT -d '{"p1":5,"p2":"wartosc","p3":0.49,"p4":null,"p5":"nowa_wartosc"}' -H "Content-Type: application/json" http://localhost:8098/buckets/s17293/keys/file5?returnbody=true
+
+ZAD 4.
+
+curl -i -XPUT -d '{"p1":5,"p3":0.49,"p4":null,"p5":"nowa_wartosc"}' -H "Content-Type: application/json" http://localhost:8098/buckets/s17293/keys/file5?returnbody=true
+
+ZAD 5.
+
+curl -i -XPUT -d '{"p1":5,"p3":0.49,"p4":null,"p5":"nowa_wartosc_zmiana_w_zad5"}' -H "Content-Type: application/json" http://localhost:8098/buckets/s17293/keys/file5?returnbody=true
+
+ZAD 6.
+
+curl -i -XDELETE http://localhost:8098/buckets/s17293/keys/file5
+
+ZAD 7.
+
+curl -i http://localhost:8098/buckets/s17293/keys/file5
+
+ZAD 8.
+
+curl -i -XPOST -d '{"p6":"qwerty"}' -H "Content-Type: application/json" http://localhost:8098/buckets/s17293/keys
+
+ZAD 9.
+
+curl -i http://localhost:8098/buckets/s17293/keys/Aqruqrq31U9PpfafWeD618vDG2N
+
+ZAD 10.
+
+curl -i -XDELETE http://localhost:8098/buckets/s17293/keys/Aqruqrq31U9PpfafWeD618vDG2N
+
+
