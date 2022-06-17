@@ -1,0 +1,53 @@
+1. MATCH (darjeeling {name: "Darjeeling" }), (sandakphu {name: "Sandakphu"}), x = allShortestPaths((darjeeling)-[*]->(sandakphu)) RETURN x
+2. MATCH (darjeeling {name: "Darjeeling" }), (sandakphu {name: "Sandakphu"}), x = allShortestPaths((darjeeling)-[*]->(sandakphu)) WHERE ALL (z IN relationships(x) WHERE z.winter="true") RETURN x
+3. MATCH (darjeeling {name: "Darjeeling" }), (sandakphu {name: "Sandakphu"}), x = allShortestPaths((darjeeling)-[*]->(sandakphu)) RETURN x, reduce(distance = 0, i IN relationships(x) | distance + i.distance) AS sumdistance ORDER BY sumdistance
+4. MATCH path = (darjeeling {name:"Darjeeling"})-[:twowheeler*]->(target) WHERE ALL(r in relationships(path) WHERE r.summer = "true") RETURN target
+
+
+5. MATCH (departures: Airport)<-[:ORIGIN]-(elsewhere) RETURN departures, count(elsewhere) AS flightsfrom ORDER BY flightsfrom DESC 
+
+pomocnicze własności i relacje:
+
+
+MATCH (flight:Flight)<-[:ASSIGN]-(ticket:Ticket {class: "business"})
+SET flight.businessPrice  = ticket.price 
+
+MATCH (flight:Flight)<-[:ASSIGN]-(ticket:Ticket {class: "firstClass"})
+SET flight.firstPrice  = ticket.price 
+
+
+MATCH (flight:Flight)<-[:ASSIGN]-(ticket:Ticket {class: "economy"})
+SET flight.economyPrice  = ticket.price 
+
+MATCH 
+(x:Airport )<-[:ORIGIN]-(y:Flight)-[:DESTINATION]->(z:Airport)
+CREATE (x)-[r1: BUSINESS {airline: y.airline, date: y.date, price: y.businessPrice}]->(z)
+CREATE (x)-[r2: FIRST {airline: y.airline, date: y.date, price: y.firstPrice}]->(z)
+CREATE (x)-[r3: ECONOMY {airline: y.airline, date: y.date, price: y.economyPrice}]->(z)
+
+6. MATCH flights=((:Airport {name: "LAX"})-[*3]->(airp:Airport))
+WITH flights, reduce(sumPrice = 0, flight IN relationships(flights) |  sumPrice + flight.price)  as sumprice
+WHERE sumprice < 3000
+RETURN flights, sumprice
+
+7. MATCH flights=((:Airport {name: "LAX"})-[*8]->(dayton:Airport {name: "DAY"}))
+WITH flights, reduce(sumPrice = 0, flight IN relationships(flights) |  sumPrice + flight.price)  as sumprice
+RETURN flights, sumprice
+ORDER BY sumprice
+
+8. MATCH flights=((:Airport {name: "LAX"})-[*8]->(dayton:Airport {name: "DAY"}))
+WITH flights, reduce(sumPrice = 0, flight IN relationships(flights) |  sumPrice + flight.price)  as sumprice
+RETURN flights, sumprice
+ORDER BY sumprice
+LIMIT 1
+
+9. MATCH (org:Airport)-[r:ECONOMY|BUSINESS|FIRST]->(destination:Airport)
+WITH r.airline AS Airlines, org.name+'->'+destination.name AS conn
+RETURN Airlines, COUNT(DISTINCT conn)
+
+10. MATCH conn = ((airport1:Airport)-[:ECONOMY|BUSINESS|FIRST]->(:Airport)-[:ECONOMY|BUSINESS|FIRST]->(airport3:Airport))
+WHERE NOT (airport1 = airport3)
+WITH conn, reduce(total = 0, f in relationships(conn) | total + f.price) AS sumprice
+RETURN conn, sumprice
+ORDER BY sumprice ASC 
+LIMIT 1

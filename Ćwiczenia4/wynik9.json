@@ -1,0 +1,10 @@
+﻿[
+  {
+    "Airlines": "20304",
+    "COUNT(DISTINCT conn)": 35
+  },
+  {
+    "Airlines": "19977",
+    "COUNT(DISTINCT conn)": 121
+  }
+]
