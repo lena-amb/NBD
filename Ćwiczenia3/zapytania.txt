@@ -1,0 +1,27 @@
+1. MATCH (movies:Movie) RETURN movies
+2. MATCH (hugo:Person {name: "Hugo Weaving"})-[:ACTED_IN]->(hugoWeavingMovies) RETURN hugo,hugoWeavingMovies
+3. MATCH (hugo:Person {name:"Hugo Weaving"})-[:ACTED_IN]->(movies:Movie)<-[:DIRECTED]-(directors:Person) RETURN DISTINCT directors
+4. MATCH (hugo:Person {name:"Hugo Weaving"})-[:ACTED_IN]->(movies:Movie)<-[:ACTED_IN]-(coActors:Person) RETURN hugo, movies, coActors
+5. MATCH (actedinMatrix: Movie)<-[:ACTED_IN]-(actors:Person)-[:ACTED_IN]->(movies:Movie) WHERE actedinMatrix.title CONTAINS "Matrix" RETURN  movies
+6. MATCH (actor: Person)-[:ACTED_IN]->(movies:Movie) WHERE exists((actor)-[:ACTED_IN]->()) RETURN actor, count(*) AS numberOfMovies
+7. MATCH (wroteANDdirected : Person)-[:WROTE]->(movies: Movie)<-[:DIRECTED]-(wroteANDdirected) RETURN wroteANDdirected, movies
+8. MATCH (keanu: Person {name: "Keanu Reeves"})-[:ACTED_IN]->(movies: Movie)<-[:ACTED_IN]-(hugo: Person {name: "Hugo Weaving"}) RETURN movies,hugo, keanu
+9. 
+CREATE (captainAmerica :Movie {title:'Captain America: The First Avenger', released:2011, tagline:'When Patriots Become Heroes'})
+      CREATE (ChrisEvans:Person {name:'Chris Evans', born:1981})
+      CREATE (SebastianStan: Person {name: "Sebastian Stan", born: 1982})
+CREATE (JoeJohnston: Person {name: "Joe Johnston", born: 1950})
+CREATE (ChristopherMarkus: Person {name: "Christopher Markus", born: 1970})
+CREATE (StephenMcfeely: Person {name: "Stephen McFeely", born: 1969})
+CREATE (JoeSimon: Person {name: "Joe Simon", born: 1913})
+CREATE (JackKirby: Person {name: "Jack Kirby", born: 1994})
+      CREATE 
+(ChrisEvans)-[:ACTED_IN {roles: ["Steve Rogers"]}]->(captainAmerica),
+(SebastianStan)-[:ACTED_IN {roles:['James Buchanan \'Bucky\' Barnes']}]->(captainAmerica),
+(JoeJohnston)-[:DIRECTED]->(captainAmerica),
+(ChristopherMarkus)-[:WROTE]->(captainAmerica),
+(StephenMcfeely)-[:WROTE]->(captainAmerica),
+(JoeSimon)-[:WROTE]->(captainAmerica),
+(JackKirby)-[:WROTE]->(captainAmerica)
+
+MATCH (firstavenger: Movie {title: 'Captain America: The First Avenger'})<--(creators: Person) RETURN firstavenger, creators
